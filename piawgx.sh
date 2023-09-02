@@ -53,7 +53,10 @@ WG_HOSTNAME=$(echo "$regionData" | jq -r '.servers.wg[0].cn')
 echo $WG_SERVER_IP
 echo $WG_HOSTNAME
  
-TOKEN_RES=`wget -O - --post-data="username=$PIA_USER&password=$PIA_PASS" https://www.privateinternetaccess.com/api/client/v2/token`
+TOKEN_RES=$(curl -s --location --request POST \
+  'https://www.privateinternetaccess.com/api/client/v2/token' \
+  --form "username=$PIA_USER" \
+  --form "password=$PIA_PASS" )
 TOKEN=`echo $TOKEN_RES | jq -r '.token'`
  
 echo "$TOKEN"
